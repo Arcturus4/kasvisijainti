@@ -29,7 +29,7 @@ const Myfiles = (props) => {
       </Content>
     </Container>
   );
-};´
+};
 
 const getAllMyMedia = () => {
   const {Mymedia, setMedia} = useContext(MediaContext);
@@ -59,3 +59,4 @@ const MediaProvider = (props) => {
     Mymedia,
     setMyMedia,
   };
+}
