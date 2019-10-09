@@ -1,16 +1,16 @@
-import {useState, useContext, useEffect} from 'react';
-import {AsyncStorage} from 'react-native';
-import {MediaContext} from '../contexts/MediaContext';
+import { useState, useContext, useEffect } from 'react';
+import { AsyncStorage } from 'react-native';
+import { MediaContext } from '../contexts/MediaContext';
 
 const apiUrl = 'http://media.mw.metropolia.fi/wbma/';
 
-const fetchGetUrl = async (url) => {
+const fetchGetUrl = async url => {
   const userToken = await AsyncStorage.getItem('userToken');
   console.log('fetchGetUrl', url);
   const response = await fetch(url, {
     headers: {
-      'x-access-token': userToken,
-    },
+      'x-access-token': userToken
+    }
   });
   const json = await response.json();
   console.log('fetchUrl json', json);
@@ -18,14 +18,16 @@ const fetchGetUrl = async (url) => {
 };
 
 const fetchPostUrl = async (url, data) => {
-  console.log('fetchPostUrl', url);
+  console.log('fetchPostUrl', url); 
   console.log('fetchPostUrl data', data);
+  const userToken = await AsyncStorage.getItem('userToken');
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-access-token': userToken
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   });
   const json = await response.json();
   console.log('fetchPostUrl json', json);
@@ -39,11 +41,11 @@ const fetchUploadUrl = async (url, data, token) => {
     method: 'POST',
     headers: {
       'content-type': 'multipart/form-data',
-      'x-access-token': userToken,
+      'x-access-token': userToken
     },
-    body: data,
+    body: data
   });
-  let json = {error: 'oops'};
+  let json = { error: 'oops' };
   if (response.ok) {
     json = await response.json();
     console.log('fetchUploadUrl json', json);
@@ -57,8 +59,8 @@ const fetchDeleteUrl = async (url, token = '') => {
   const response = await fetch(apiUrl + url, {
     method: 'DELETE',
     headers: {
-      'x-access-token': userToken,
-    },
+      'x-access-token': userToken
+    }
   });
   const json = await response.json();
   console.log('fetchDeleteUrl json', json);
@@ -67,10 +69,11 @@ const fetchDeleteUrl = async (url, token = '') => {
 
 const mediaAPI = () => {
   const getAllMedia = () => {
-    const {media, setMedia} = useContext(MediaContext);
+    const { media, setMedia } = useContext(MediaContext);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-      fetchGetUrl(apiUrl + 'media').then((json) => {
+      fetchGetUrl(apiUrl + 'tags/kasvisijainti').then(json => {
+        //map(files based on distance)
         setMedia(json);
         setLoading(false);
       });
@@ -79,18 +82,18 @@ const mediaAPI = () => {
   };
 
   const reloadAllMedia = (setMedia, setMyMedia) => {
-    fetchGetUrl(apiUrl +'media').then((json) => {
+    fetchGetUrl(apiUrl + 'tags/kasvisijainti').then(json => {
       setMedia(json);
     });
-    fetchGetUrl(apiUrl +'media/user').then((json) => {
+    fetchGetUrl(apiUrl + 'media/user').then(json => {
       setMyMedia(json);
     });
   };
 
-  const getThumbnail = (url) => {
+  const getThumbnail = url => {
     const [thumbnails, setThumbnails] = useState({});
     useEffect(() => {
-      fetchGetUrl(apiUrl + 'media/' + url).then((json) => {
+      fetchGetUrl(apiUrl + 'media/' + url).then(json => {
         setThumbnails(json.thumbnails);
       });
     }, []);
@@ -98,8 +101,8 @@ const mediaAPI = () => {
   };
   const signInAsync = async (inputs, props) => {
     const data = {
-      'username': inputs.username,
-      'password': inputs.password,
+      username: inputs.username,
+      password: inputs.password
     };
     const json = await fetchPostUrl(apiUrl + 'login', data);
     await AsyncStorage.setItem('userToken', json.token);
@@ -108,10 +111,10 @@ const mediaAPI = () => {
   };
   const registerAsync = async (inputs, props) => {
     const data = {
-      'username': inputs.username,
-      'password': inputs.password,
-      'email': inputs.email,
-      'full_name': inputs.full_name,
+      username: inputs.username,
+      password: inputs.password,
+      email: inputs.email,
+      full_name: inputs.full_name
     };
     const json = await fetchPostUrl(apiUrl + 'users', data);
     if (!json.error) {
@@ -131,7 +134,7 @@ const mediaAPI = () => {
   */
 
   const userToContext = async () => {
-    const {user, setUser} = useContext(MediaContext);
+    const { user, setUser } = useContext(MediaContext);
     const getFromStorage = async () => {
       const storageUser = JSON.parse(await AsyncStorage.getItem('user'));
       console.log('storage', storageUser);
@@ -143,12 +146,11 @@ const mediaAPI = () => {
     return [user];
   };
 
-
-  const getAvatar = (user) => {
+  const getAvatar = user => {
     const [avatar, setAvatar] = useState('http://placekitten.com/100/100');
     console.log('avatar', apiUrl + 'tags/avatar_' + user.user_id);
     useEffect(() => {
-      fetchGetUrl(apiUrl + 'tags/avatar_' + user.user_id).then((json) => {
+      fetchGetUrl(apiUrl + 'tags/avatar_' + user.user_id).then(json => {
         console.log('avatarjson', json[0].filename);
         setAvatar(apiUrl + 'uploads/' + json[0].filename);
       });
@@ -156,19 +158,21 @@ const mediaAPI = () => {
     return avatar;
   };
 
-  const getUserInfo = (userId) => {
+  const getUserInfo = userId => {
     const [userInfo, setUserInfo] = useState({});
     useEffect(() => {
-      fetchGetUrl(apiUrl + 'users/' + userId).then((json) => {
-        setUserInfo(json);
-      }).catch((error)=>{
-        console.log(console.error);
-      });
+      fetchGetUrl(apiUrl + 'users/' + userId)
+        .then(json => {
+          setUserInfo(json);
+        })
+        .catch(error => {
+          console.log(console.error);
+        });
     }, []);
     return userInfo;
   };
 
-  const checkAvailable = async (username) => {
+  const checkAvailable = async username => {
     const json = await fetchGetUrl(apiUrl + 'users/username/' + username);
     if (!json.error) {
       if (json.available) {
@@ -181,16 +185,16 @@ const mediaAPI = () => {
     }
   };
 
-  const uploadFile = async (formData) => {
-    return fetchUploadUrl('media', formData).then((json) => {
+  const uploadFile = async formData => {
+    return fetchUploadUrl('media', formData).then(json => {
       return json;
     });
   };
   const getAllMyMedia = () => {
-    const {myMedia, setMyMedia} = useContext(MediaContext);
+    const { myMedia, setMyMedia } = useContext(MediaContext);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
-      fetchGetUrl(apiUrl + 'media/user').then((json) => {
+      fetchGetUrl(apiUrl + 'media/user').then(json => {
         setMyMedia(json);
         setLoading(false);
       });
@@ -198,15 +202,26 @@ const mediaAPI = () => {
     return [myMedia, loading];
   };
   const deleteMedia = async (file, setMyMedia, setMedia) => {
-    return fetchDeleteUrl('media/' + file.file_id).then((json) => {
+    return fetchDeleteUrl('media/' + file.file_id).then(json => {
       console.log('delete', json);
       setMedia([]);
       setMyMedia([]);
       reloadAllMedia(setMedia, setMyMedia);
     });
   };
-
+  const addTag = async (fileID, tagName) => {
+    const data = { file_id: fileID, tag: tagName };
+    const json = await fetchPostUrl(apiUrl+'tags', data);
+    if (!json.error) {
+      console.log(json);
+      return true
+    } else {
+      console.log(json.error);
+      return false
+    }
+  };
   return {
+    addTag,
     getAllMedia,
     getThumbnail,
     signInAsync,
@@ -218,7 +233,7 @@ const mediaAPI = () => {
     uploadFile,
     reloadAllMedia,
     getAllMyMedia,
-    deleteMedia,
+    deleteMedia
   };
 };
 
