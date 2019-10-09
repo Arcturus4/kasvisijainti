@@ -5,21 +5,22 @@ const MediaContext = React.createContext({});
 const MediaProvider = (props) => {
   const {
     media: initialMedia,
-    myMedia: initialMyMedia,
     user: initialUser,
+    where: initialWhere,
     children,
   } = props;
   const [media, setMedia] = useState(initialMedia);
-  const [myMedia, setMyMedia] = useState(initialMyMedia);
   const [user, setUser] = useState(initialUser);
+  const [where, setWhere] = useState(initialWhere);
+
 
   const appContext = {
     user,
     setUser,
     media,
     setMedia,
-    myMedia,
-    setMyMedia,
+    where,
+    setWhere,
   };
 
   return (
@@ -31,15 +32,15 @@ const MediaProvider = (props) => {
 
 MediaProvider.propTypes = {
   media: PropTypes.array,
-  myMedia: PropTypes.array,
   user: PropTypes.object,
   children: PropTypes.node,
+  where: PropTypes.object,
 };
 
 MediaProvider.defaultProps = {
   media: [],
-  myMedia: [],
   user: {},
+  where: {lat: null, lng: null},
 };
 
 export {MediaContext, MediaProvider};

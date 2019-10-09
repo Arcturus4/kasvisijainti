@@ -1,56 +1,52 @@
 /* eslint-disable indent */
-import React from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {MediaContext} from '../contexts/MediaContext';
 
-export default class App extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            ready: false,
-            where: {lat: null, lng: null},
-            error: null,
-        };
-    }
-    componentDidMount() {
+const App = () =>  {
+const [ready, setReady] = useState(false);
+const {where, setWhere} = useContext(MediaContext);
+const [error, setError] = useState(null);
+
+    useEffect(() => {
         const geoOptions = {
             enableHighAccuracy: true,
             timeOut: 20000,
             maximumAge: 60 * 60 * 24,
         };
-        this.setState({ready: false, error: null});
-        navigator.geolocation.getCurrentPosition( this.geoSuccess,
-                                                this.geoFailure,
+        setReady(false)
+        setError(null)
+        navigator.geolocation.getCurrentPosition(geoSuccess,
+                                                geoFailure,
                                                 geoOptions);
-    }
-    geoSuccess = (position) => {
+    }, []);
+
+    const geoSuccess = (position) => {
         console.log(position.coords.latitude);
 
-        this.setState({
-            ready: true,
-            where: {lat: position.coords.latitude, lng: position.coords.longitude},
-        });
+       setReady(true);
+       setWhere({lat: position.coords.latitude, lng: position.coords.longitude});
     }
-    geoFailure = (err) => {
-        this.setState({error: err.message});
-    }
-    render() {
+    const geoFailure = (err) => {
+        setError(err.message);
+}
         return (
             <View style={styles.container}>
-                { !this.state.ready && (
+                { !ready && (
                 console.log('success')
                 )}
-                { this.state.error && (
+                { error && (
                 console.log('errorius')
                 )}
-                { this.state.ready && (
+                { ready && (
+
                     <Text style={styles.big}>{
-                    `Latitude: ${this.state.where.lat}
-                    Longitude: ${this.state.where.lng}`
+                    `Latitude: ${where.lat}
+                    Longitude: ${where.lng}`
                     }</Text>
                 )}
             </View>
         );
-    }
 }
 
 const styles = StyleSheet.create({
