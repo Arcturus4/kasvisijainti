@@ -3,7 +3,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {MediaContext} from '../contexts/MediaContext';
 
-const App = () =>  {
+const Geolocation = () =>  {
 const [ready, setReady] = useState(false);
 const {where, setWhere} = useContext(MediaContext);
 const [error, setError] = useState(null);
@@ -60,3 +60,4 @@ const styles = StyleSheet.create({
         fontSize: 48,
     },
 });
+export default Geolocation;
