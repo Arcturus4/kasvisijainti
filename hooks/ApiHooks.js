@@ -32,7 +32,7 @@ const fetchPostUrl = async (url, data) => {
   return json;
 };
 
-const fetchUploadUrl = async (url, data) => {
+const fetchUploadUrl = async (url, data, token) => {
   const userToken = await AsyncStorage.getItem('userToken');
   console.log('fetchUploadUrl', url, data, userToken);
   const response = await fetch(apiUrl + url, {
@@ -51,10 +51,18 @@ const fetchUploadUrl = async (url, data) => {
   return json;
 };
 
-const uploadFile = async (formData) => {
-  return fetchUploadUrl('media', formData).then((json) => {
-    return json;
+const fetchDeleteUrl = async (url, token = '') => {
+  const userToken = await AsyncStorage.getItem('userToken');
+  console.log('fetchDeleteUrl', url, userToken);
+  const response = await fetch(apiUrl + url, {
+    method: 'DELETE',
+    headers: {
+      'x-access-token': userToken,
+    },
   });
+  const json = await response.json();
+  console.log('fetchDeleteUrl json', json);
+  return json;
 };
 
 const mediaAPI = () => {
@@ -69,6 +77,16 @@ const mediaAPI = () => {
     }, []);
     return [media, loading];
   };
+
+  const reloadAllMedia = (setMedia, setMyMedia) => {
+    fetchGetUrl(apiUrl +'media').then((json) => {
+      setMedia(json);
+    });
+    fetchGetUrl(apiUrl +'media/user').then((json) => {
+      setMyMedia(json);
+    });
+  };
+
   const getThumbnail = (url) => {
     const [thumbnails, setThumbnails] = useState({});
     useEffect(() => {
@@ -163,6 +181,30 @@ const mediaAPI = () => {
     }
   };
 
+  const uploadFile = async (formData) => {
+    return fetchUploadUrl('media', formData).then((json) => {
+      return json;
+    });
+  };
+  const getAllMyMedia = () => {
+    const {myMedia, setMyMedia} = useContext(MediaContext);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+      fetchGetUrl(apiUrl + 'media/user').then((json) => {
+        setMyMedia(json);
+        setLoading(false);
+      });
+    }, []);
+    return [myMedia, loading];
+  };
+  const deleteMedia = async (file, setMyMedia, setMedia) => {
+    return fetchDeleteUrl('media/' + file.file_id).then((json) => {
+      console.log('delete', json);
+      setMedia([]);
+      setMyMedia([]);
+      reloadAllMedia(setMedia, setMyMedia);
+    });
+  };
 
   return {
     getAllMedia,
@@ -174,6 +216,9 @@ const mediaAPI = () => {
     getUserInfo,
     checkAvailable,
     uploadFile,
+    reloadAllMedia,
+    getAllMyMedia,
+    deleteMedia,
   };
 };
 

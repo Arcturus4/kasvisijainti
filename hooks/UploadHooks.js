@@ -1,10 +1,13 @@
 import {useState, useContext} from 'react';
 import mediaAPI from './ApiHooks';
+import {MediaContext} from '../contexts/MediaContext';
 
-const {uploadFile} = mediaAPI();
+const {uploadFile, reloadAllMedia} = mediaAPI();
 
 const useUploadForm = () => {
-  const [inputs, setInputs] = useState({});
+  const initInputs = {title: '', description: ''};
+  const [inputs, setInputs] = useState(initInputs);
+  const {setMedia, setMyMedia} = useContext(MediaContext);
   // upload form event handlers
   const handleTitleChange = (text) => {
     setInputs((inputs) => ({
@@ -19,7 +22,7 @@ const useUploadForm = () => {
     }));
   };
 
-  const handleUpload = (file) => {
+  const handleUpload = (file, setLoading, navigation) => {
     const fd = new FormData();
     const filename = file.uri.split('/').pop();
 
@@ -41,7 +44,23 @@ const useUploadForm = () => {
     fd.append('file', {uri: file.uri, name: filename, type});
     fd.append('title', inputs.title);
     fd.append('description', inputs.description);
-    console.log(uploadFile(fd));
+    uploadFile(fd).then((response) => {
+      console.log('upl resp', response);
+      // reset media because silly refresh problems
+      setMedia([]);
+      setTimeout(() => {
+        reloadAllMedia(setMedia, setMyMedia);
+        setLoading(false);
+        navigation.navigate('Home');
+      }, 2000);
+    }).catch((err) => {
+      console.log(err);
+    });
+  };
+
+  const resetForm = (setFile) => {
+    setInputs(initInputs);
+    setFile({});
   };
 
   return {
@@ -49,6 +68,7 @@ const useUploadForm = () => {
     handleDescriptionChange,
     handleUpload,
     inputs,
+    resetForm,
   };
 };
 

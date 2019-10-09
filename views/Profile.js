@@ -1,7 +1,6 @@
 import React, {useContext} from 'react';
 import {AsyncStorage} from 'react-native';
 import PropTypes from 'prop-types';
-import Geolocation from '../components/Geolocation';
 import {
   Icon,
   Container,
@@ -13,6 +12,7 @@ import {
   Left,
   H2,
   Body,
+  Right,
 } from 'native-base';
 import mediaAPI from '../hooks/ApiHooks';
 import AImage from '../components/AsyncImage';
@@ -33,21 +33,31 @@ const Profile = (props) => {
         <Card>
           <CardItem>
             <Left>
-              <H2>{user.username}</H2>
+              <Icon name='person' />
+              <Body>
+                <H2>{user.username}</H2>
+                <Text>{user.full_name}</Text>
+                <Text note>{user.email}</Text>
+              </Body>
             </Left>
-            <Body>
-              <Text>{user.full_name}</Text>
-              <Text note>{user.email}</Text>
-            </Body>
+            <Right>
+              <Button
+                iconRight
+                onPress={signOutAsync}
+              >
+                <Text>Sign out</Text>
+                <Icon name='log-out' />
+              </Button>
+            </Right>
           </CardItem>
-          <CardItem>
+          <CardItem cardBody>
             <Body>
               <AImage
                 source={{uri: getAvatar(user)}}
                 style={{
                   borderRadius: 50,
                   width: '100%',
-                  height: 500,
+                  height: 200,
                 }}
                 spinnerColor='#b3e5fc'
               />
@@ -55,14 +65,27 @@ const Profile = (props) => {
           </CardItem>
           <CardItem>
             <Left>
-              <Button onPress={signOutAsync}>
-                <Icon name="log-out" />
+              <Button
+                iconRight
+              >
+                <Text>Add avatar</Text>
+                <Icon name='add' />
               </Button>
             </Left>
+            <Right>
+              <Button
+                iconRight
+                onPress={() => {
+                  props.navigation.navigate('MyFiles');
+                }}
+              >
+                <Text>My files</Text>
+                <Icon name='document' />
+              </Button>
+            </Right>
           </CardItem>
         </Card>
         }
-        <Geolocation>${Geolocation}</Geolocation>
       </Content>
     </Container>
   );

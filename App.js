@@ -6,8 +6,6 @@ import Navigator from './navigators/Navigator';
 import * as Font from 'expo-font';
 import {Ionicons} from '@expo/vector-icons';
 import {AppLoading} from 'expo';
-import Geolocation from './components/Geolocation';
-
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
@@ -19,7 +17,6 @@ const App = () => {
     });
     setIsReady(true);
   };
-
 
   useEffect(() => {
     loadFonts();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
 import {
   ListItem as BaseListItem,
@@ -11,10 +11,12 @@ import {
   Text,
 } from 'native-base';
 import mediaAPI from '../hooks/ApiHooks';
+import {MediaContext} from '../contexts/MediaContext';
 
-const ListItem = (props) => {
+const MyFilesListItem = (props) => {
+  const {setMedia, setMyMedia} = useContext(MediaContext);
   const {navigation, singleMedia} = props;
-  const {getThumbnail} = mediaAPI();
+  const {getThumbnail, deleteMedia} = mediaAPI();
   const tn = getThumbnail(singleMedia.file_id);
   console.log('thumbnails', tn);
   return (
@@ -38,14 +40,24 @@ const ListItem = (props) => {
         >
           <Text>View</Text>
         </Button>
+        <Button
+          onPress={
+            () => {
+              console.log('press');
+              deleteMedia(singleMedia, setMyMedia, setMedia);
+            }
+          }
+        >
+          <Text>Delete</Text>
+        </Button>
       </Right>
     </BaseListItem>
   );
 };
 
-ListItem.propTypes = {
+MyFilesListItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
 };
 
-export default ListItem;
+export default MyFilesListItem;

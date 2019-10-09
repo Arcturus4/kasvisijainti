@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import {useState} from 'react';
 import validate from 'validate.js';
 import mediaAPI from './ApiHooks';
@@ -141,6 +140,11 @@ const useSignUpForm = () => {
       email: emailError,
       confirm: confirmError,
     }));
+    if (usernameError !== null || passwordError !== null || emailError !== null || confirmError !== null) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   const checkUserAvailable = (event) => {
