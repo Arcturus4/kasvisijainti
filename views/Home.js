@@ -3,7 +3,7 @@ import React from 'react';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 import mediaAPI from '../hooks/ApiHooks';
-import {Container, Content} from 'native-base';
+import {Container, Content, Header, Title, Body} from 'native-base';
 
 
 const Home = (props) => {
@@ -12,6 +12,11 @@ const Home = (props) => {
   userToContext();
   return (
     <Container>
+      <Header>
+        <Body>
+        <Title>EräJorma Pro</Title>
+        </Body>
+      </Header>
       <Content>
         <List navigation={navigation}></List>
       </Content>

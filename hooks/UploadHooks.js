@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import mediaAPI from './ApiHooks';
 import { MediaContext } from '../contexts/MediaContext';
 
+
 const { uploadFile, reloadAllMedia, addTag } = mediaAPI();
 
 const useUploadForm = () => {
@@ -43,11 +44,12 @@ const useUploadForm = () => {
     // Assume "photo" is the name of the form field the server expects
     fd.append('file', { uri: file.uri, name: filename, type });
     fd.append('title', inputs.title);
-    fd.append('description', inputs.description);
+    const { where } = useContext(MediaContext);
+    fd.append('description', JSON.stringify({ where })); //  <--- ('geotag', inputs.description);
     uploadFile(fd)
       .then(response => {
         console.log('upl resp', response);
-        addTag(response.file_id, 'kasvisijainti').then(vastaus => {
+        addTag(response.file_id, 'kasvisijainti').then(vastaus => {  //appi tägi tässä! <-- promise
           if (vastaus) {
             setMedia([]);
             setTimeout(() => {
@@ -60,8 +62,6 @@ const useUploadForm = () => {
           }
         });
 
-        // lisää appi tägi tässä! <-- promise
-        //.then set media, timeout....
         // reset media because silly refresh problems
       })
       .catch(err => {
