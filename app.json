@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,10 +25,6 @@
     ],
     "ios": {
       "supportsTablet": true
-    },
-    "androidStatusBar": {
-      "barStyle": "light-content",
-      "backgroundColor": "#d3d3d3"
     }
   }
 }
