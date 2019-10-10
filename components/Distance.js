@@ -1,7 +1,7 @@
 /* eslint-disable indent */
 
 //kahden pisteen välinen etäisyys
-const Distance = (lat1, lon1, lat2, lon2) => {
+const Distance = ([lat1, lon1], [lat2, lon2]) => {
   var R = 6371; // km
   var dLat = (lat2-lat1);
   var dLon = (lon2-lon1);
@@ -19,3 +19,4 @@ const Distance = (lat1, lon1, lat2, lon2) => {
   }
 }
 export default Distance;
+

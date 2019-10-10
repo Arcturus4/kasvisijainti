@@ -8,7 +8,6 @@ const List = (props) => {
   const {navigation} = props;
   const {getAllMedia} = mediaAPI();
   const [media, loading] = getAllMedia();
-  //joo se ois ihan jees
   console.log(loading);
   console.log('media', media);
   return (

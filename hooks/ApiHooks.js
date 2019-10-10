@@ -3,6 +3,7 @@ import { AsyncStorage } from 'react-native';
 import { MediaContext } from '../contexts/MediaContext';
 //import Geolocation from '../components/Geolocation';
 import Distance from '../components/Distance';
+import Geolocation from '../components/Geolocation';
 
 const apiUrl = 'http://media.mw.metropolia.fi/wbma/';
 
@@ -68,6 +69,8 @@ const fetchDeleteUrl = async (url, token = '') => {
   console.log('fetchDeleteUrl json', json);
   return json;
 };
+  
+      
 
 const mediaAPI = () => {
 
@@ -77,16 +80,21 @@ const mediaAPI = () => {
     //const {where, setWhere} = useContext(MediaContext);
     useEffect(() => {
       fetchGetUrl(apiUrl + 'tags/kasvisijainti').then(json => {
-        //map(files based on distance) Niin nyt kun toi funktio on komponenttina tän laskemiseen niin sen voi kutsua tässä?
+        //map(files based on distance) 
         //tässä pitää antaa sille parametreina sekä se where että se description
-        //const { where } = useContext(MediaContext);
-        //const image_cords = 
-        //Distance()
-
+       /* const { where } = useContext(MediaContext);
+        mediaArray = [];
+        mediaArray + media;
         
 
+        mediaArray.forEach(element => {
+        });
+        if(Distance([{ where }], [element.formData.description]) != null)*/
+      
         setMedia(json);
         setLoading(false);
+        
+        
       });
     }, []);
     return [media, loading];

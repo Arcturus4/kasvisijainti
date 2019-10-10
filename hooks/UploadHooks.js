@@ -1,6 +1,8 @@
+
 import { useState, useContext } from 'react';
 import mediaAPI from './ApiHooks';
 import { MediaContext } from '../contexts/MediaContext';
+import Geolocation from '../components/Geolocation';
 
 
 const { uploadFile, reloadAllMedia, addTag } = mediaAPI();
@@ -9,6 +11,7 @@ const useUploadForm = () => {
   const initInputs = { title: '', description: '' };
   const [inputs, setInputs] = useState(initInputs);
   const { setMedia, setMyMedia } = useContext(MediaContext);
+  const { where } = useContext(MediaContext);
   // upload form event handlers
   const handleTitleChange = text => {
     setInputs(inputs => ({
@@ -44,8 +47,8 @@ const useUploadForm = () => {
     // Assume "photo" is the name of the form field the server expects
     fd.append('file', { uri: file.uri, name: filename, type });
     fd.append('title', inputs.title);
-    const { where } = useContext(MediaContext);
-    fd.append('description', JSON.stringify({ where })); //  <--- ('geotag', inputs.description);
+    var descriptCords = JSON.stringify({ Geolocation });
+    fd.append('description', descriptCords); //  <--- ('geotag', inputs.description);
     uploadFile(fd)
       .then(response => {
         console.log('upl resp', response);

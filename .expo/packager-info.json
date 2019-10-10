@@ -1,9 +1,9 @@
 {
-  "devToolsPort": 19003,
+  "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19002,
-  "packagerPid": 15872,
-  "expoServerNgrokUrl": "https://ye-4x6.anonymous.kasvisijainti.exp.direct",
-  "packagerNgrokUrl": "https://packager.ye-4x6.anonymous.kasvisijainti.exp.direct",
-  "ngrokPid": 15881
+  "packagerPort": 19001,
+  "packagerPid": 16820,
+  "expoServerNgrokUrl": "https://ds-bd4.anonymous.kasvisijainti.exp.direct",
+  "packagerNgrokUrl": "https://packager.ds-bd4.anonymous.kasvisijainti.exp.direct",
+  "ngrokPid": 2272
 }
