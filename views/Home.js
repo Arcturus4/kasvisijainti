@@ -13,6 +13,13 @@ const Home = (props) => {
   return (
     <Container>
       <Content>
+        <Header>
+          <Left />
+            <Body>
+              <Title>EräJorma Pro</Title>
+            </Body>
+          <Right/>
+        </Header>
         <List navigation={navigation}></List>
       </Content>
     </Container>

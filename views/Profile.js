@@ -14,6 +14,8 @@ import {
   H2,
   Body,
   Right,
+  Header,
+  Title,
 } from 'native-base';
 import mediaAPI from '../hooks/ApiHooks';
 import AImage from '../components/AsyncImage';
@@ -29,6 +31,13 @@ const Profile = (props) => {
   };
   return (
     <Container>
+      <Header>
+      <Left />
+        <Body>
+          <Title>Profile</Title>
+        </Body>
+        <Right/>
+      </Header>
       <Content>
         {user &&
         <Card>
