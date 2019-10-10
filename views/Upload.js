@@ -8,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import * as Permissions from 'expo-permissions';
 import {Video} from 'expo-av';
+import { Header } from 'react-navigation-stack';
 
 const Upload = (props) => {
   const [file, setFile] = useState({});
@@ -63,24 +64,25 @@ const Upload = (props) => {
         />
       }
       {loading && <Spinner />}
-      {!loading && <Form>
+      {!loading && 
+      <Form>
         <FormTextInput
           value={inputs.title}
-          placeholder='title'
+          placeholder='Title'
           onChangeText={handleTitleChange}
         />
         <FormTextInput
           value={inputs.description}
-          placeholder='description'
+          placeholder='Description'
           onChangeText={handleDescriptionChange}
         />
-        <Button block
+        <Button rounded
           onPress={pickImage}
         >
           <Text>Choose file</Text>
         </Button>
         {file.uri && inputs.title.length > 3 && (inputs.description.length == 0 || inputs.description.length > 5) &&
-        <Button block
+        <Button rounded
           onPress={() => {
             handleUpload(file, setLoading, props.navigation);
           }}
@@ -89,7 +91,7 @@ const Upload = (props) => {
         </Button>
         }
 
-        <Button block
+        <Button rounded
           onPress={() => resetForm(setFile)}
         >
           <Text>Reset</Text>
