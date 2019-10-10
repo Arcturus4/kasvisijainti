@@ -9,6 +9,7 @@ import {
   Right,
   H2,
   Text,
+  Icon
 } from 'native-base';
 import mediaAPI from '../hooks/ApiHooks';
 
@@ -34,9 +35,8 @@ const ListItem = (props) => {
               console.log('klik');
               navigation.push('Single', {file: singleMedia});
             }
-          }
-        >
-          <Text>View</Text>
+          }>
+          <Icon name = 'arrow-forward'/>
         </Button>
       </Right>
     </BaseListItem>

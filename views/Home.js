@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import React from 'react';
+import React, {Component} from 'react';
 import List from '../components/List';
 import PropTypes from 'prop-types';
 import mediaAPI from '../hooks/ApiHooks';
