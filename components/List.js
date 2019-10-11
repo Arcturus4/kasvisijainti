@@ -17,6 +17,7 @@ const List = (props) => {
       renderRow={(item) =>
         <ListItem navigation={navigation} singleMedia={item} />}
       keyExtractor={(item, index) => index.toString()}
+
     />
   );
 };

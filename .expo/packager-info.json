@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://ds-bd4.anonymous.kasvisijainti.exp.direct",
   "packagerNgrokUrl": "https://packager.ds-bd4.anonymous.kasvisijainti.exp.direct",
-  "ngrokPid": 7590,
+  "ngrokPid": 1700,
   "devToolsPort": 19002,
   "packagerPort": 19001,
-  "packagerPid": 7580
+  "packagerPid": 1663
 }
