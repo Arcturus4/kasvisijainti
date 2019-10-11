@@ -21,12 +21,11 @@ const ListItem = (props) => {
   return (
     <BaseListItem thumbnail>
       <Left>
-        {tn && <Thumbnail square large source={{uri: 'http://media.mw.metropolia.fi/wbma/uploads/' + tn.w160}} />
+        {tn && <Thumbnail circular large source={{uri: 'http://media.mw.metropolia.fi/wbma/uploads/' + tn.w160}} />
         }
       </Left>
       <Body>
         <H2>{singleMedia.title}</H2>
-        <Text numberOfLines={2}>{singleMedia.description}</Text>
       </Body>
       <Right>
         <Button

@@ -12,7 +12,7 @@ const [error, setError] = useState(null);
         const geoOptions = {
             enableHighAccuracy: true,
             timeOut: 20000,
-            maximumAge: 60 * 60 * 24,
+            maximumAge: 15,
         };
         setReady(false)
         setError(null)
