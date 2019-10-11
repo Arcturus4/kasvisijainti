@@ -118,7 +118,7 @@ const Login = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#98FB98',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 40,
